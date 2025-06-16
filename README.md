@@ -4,6 +4,9 @@
 
 MoodBoard.ai is a simple web application that generates beautiful mood boards based on your emotional input. Enter how you're feeling, and the app will create a 3x3 grid of images that match your mood.
 
+## 🌐 Live Demo  
+👉 [https://mood-board-omega.vercel.app](https://mood-board-omega.vercel.app)
+
 ## Features
 
 - **Mood Input**: Enter any emotion or feeling to generate a mood board
