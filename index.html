@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoodBoard.ai - Turn your emotions into art</title>
+    <meta name="description"
+        content="Turn your emotions into art with a single click. Generate beautiful mood boards based on how you feel.">
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { inter: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="./css/style.css">
+
+    <!-- Favicon -->
+    <link rel="icon" href="./assets/favicon.ico">
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body
+    class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 min-h-screen flex flex-col transition-colors duration-200 font-inter">
+    <!-- Header -->
+    <header class="flex items-center justify-between py-4 mb-6 bg-white dark:bg-gray-900 shadow-sm">
+        <div class="flex items-center gap-3">
+            <img src="./assets/logo.png" alt="MoodBoard.ai Logo"
+                class="logo-img h-10 w-10 min-h-[40px] min-w-[40px] rounded-full bg-gray-200 dark:bg-gray-800 transition-transform duration-300 hover:scale-105 object-cover">
+            <h1 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100 whitespace-nowrap">
+                MoodBoard.ai</h1>
+        </div>
+        <button id="theme-toggle"
+            class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition">
+            <span id="theme-icon" class="material-icons">dark_mode</span>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <!-- Input Section -->
+        <section class="mb-8 flex flex-col items-center">
+            <label for="mood-input" class="sr-only">How are you feeling today?</label>
+            <div class="flex gap-2 w-full max-w-md">
+                <input id="mood-input" type="text" placeholder="How are you feeling today?"
+                    class="flex-grow px-4 py-2 rounded-l-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition" />
+                <button id="search-button"
+                    class="px-4 py-2 bg-indigo-600 text-white rounded-r-lg transition ease-in-out duration-300 hover:scale-105 hover:shadow-xl hover:bg-indigo-700">Search</button>
+            </div>
+            <div class="flex gap-2 mt-4">
+                <button
+                    class="mood-preset px-3 py-1 rounded bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200 transition ease-in-out duration-300 hover:scale-105 hover:shadow-xl hover:bg-indigo-200 dark:hover:bg-indigo-700"
+                    data-mood="Joy">Joy</button>
+                <button
+                    class="mood-preset px-3 py-1 rounded bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200 transition ease-in-out duration-300 hover:scale-105 hover:shadow-xl hover:bg-indigo-200 dark:hover:bg-indigo-700"
+                    data-mood="Calm">Calm</button>
+                <button
+                    class="mood-preset px-3 py-1 rounded bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200 transition ease-in-out duration-300 hover:scale-105 hover:shadow-xl hover:bg-indigo-200 dark:hover:bg-indigo-700"
+                    data-mood="Melancholy">Melancholy</button>
+                <button
+                    class="mood-preset px-3 py-1 rounded bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200 transition ease-in-out duration-300 hover:scale-105 hover:shadow-xl hover:bg-indigo-200 dark:hover:bg-indigo-700"
+                    data-mood="Energetic">Energetic</button>
+                <button
+                    class="mood-preset px-3 py-1 rounded bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200 transition ease-in-out duration-300 hover:scale-105 hover:shadow-xl hover:bg-indigo-200 dark:hover:bg-indigo-700"
+                    data-mood="Motivated">Motivated</button>
+            </div>
+        </section>
+
+        <!-- Example for image cards (if you render them in HTML, otherwise ensure this in JS) -->
+        <!-- Add bg-gray-200 dark:bg-gray-800 and text-gray-800 dark:text-gray-100 -->
+        <!-- If you use JS to render cards, make sure to add these classes in your JS as well! -->
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="hidden flex-col items-center justify-center my-8">
+            <div
+                class="w-12 h-12 border-4 border-indigo-400 border-t-transparent rounded-full animate-spin pulse bg-gray-200 dark:bg-gray-800">
+            </div>
+            <span class="mt-2 text-indigo-500 dark:text-indigo-300">Loading images...</span>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error-message"
+            class="hidden bg-red-100 dark:bg-red-800 text-red-700 dark:text-red-200 px-4 py-2 rounded mb-4 max-w-md mx-auto">
+            <p></p>
+        </div>
+
+        <!-- Image Grid -->
+        <section id="image-grid"
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 transition-all duration-300"></section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800 py-6 mt-auto text-center text-sm text-gray-500 dark:text-gray-400">
+        <span>Made out of boredom by Navod • Images from <a href="https://unsplash.com"
+                class="underline hover:text-indigo-600" target="_blank" rel="noopener">Unsplash</a></span>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="./js/api.js"></script>
+    <script src="./js/imageRenderer.js"></script>
+    <script src="./js/themeToggle.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+
+</html>
